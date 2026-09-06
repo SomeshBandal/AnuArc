@@ -1,0 +1,228 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-spark: var(--spark);
+  --color-ember: var(--ember);
+  --color-steel: var(--steel);
+  --font-display: var(--font-display);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+}
+
+:root {
+  --radius: 0.5rem;
+  --font-display: "Archivo", "Inter", system-ui, sans-serif;
+  --font-sans: "Archivo", "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  /* Dark industrial steel theme (single theme — site is dark by design) */
+  --background: oklch(0.155 0.012 255);
+  --foreground: oklch(0.94 0.008 90);
+  --card: oklch(0.195 0.014 255);
+  --card-foreground: oklch(0.94 0.008 90);
+  --popover: oklch(0.21 0.015 255);
+  --popover-foreground: oklch(0.94 0.008 90);
+  --primary: oklch(0.73 0.19 48);
+  --primary-foreground: oklch(0.16 0.02 50);
+  --secondary: oklch(0.24 0.016 255);
+  --secondary-foreground: oklch(0.9 0.01 90);
+  --muted: oklch(0.23 0.014 255);
+  --muted-foreground: oklch(0.66 0.02 250);
+  --accent: oklch(0.82 0.16 82);
+  --accent-foreground: oklch(0.18 0.03 60);
+  --destructive: oklch(0.6 0.22 25);
+  --destructive-foreground: oklch(0.96 0 0);
+  --border: oklch(0.3 0.014 255);
+  --input: oklch(0.3 0.014 255);
+  --ring: oklch(0.73 0.19 48);
+  --spark: oklch(0.88 0.17 88);
+  --ember: oklch(0.65 0.21 38);
+  --steel: oklch(0.35 0.02 255);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  ::selection {
+    background: var(--color-primary);
+    color: var(--color-primary-foreground);
+  }
+}
+
+/* ------- Welding motion & effects ------- */
+
+@keyframes spark-fly {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(1);
+  }
+  8% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--dx, 40px), var(--dy, -160px)) scale(0.2);
+  }
+}
+
+@keyframes arc-flicker {
+  0%, 100% { opacity: 0.85; }
+  8% { opacity: 0.4; }
+  10% { opacity: 0.95; }
+  22% { opacity: 0.55; }
+  24% { opacity: 1; }
+  46% { opacity: 0.7; }
+  60% { opacity: 1; }
+  78% { opacity: 0.5; }
+  82% { opacity: 0.9; }
+}
+
+@keyframes molten-line {
+  0% { transform: scaleX(0); transform-origin: left; }
+  50% { transform: scaleX(1); transform-origin: left; }
+  51% { transform-origin: right; }
+  100% { transform: scaleX(0); transform-origin: right; }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.35; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.08); }
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes logo-welcome {
+  0% {
+    opacity: 0;
+    transform: rotate(-540deg) scale(0.15);
+    filter: brightness(2.2) blur(6px);
+  }
+  60% {
+    opacity: 1;
+    transform: rotate(20deg) scale(1.12);
+    filter: brightness(1.4) blur(0);
+  }
+  80% {
+    transform: rotate(-8deg) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+    filter: brightness(1);
+  }
+}
+
+@utility spark-particle {
+  position: absolute;
+  border-radius: 9999px;
+  background: var(--color-spark);
+  box-shadow: 0 0 8px 2px color-mix(in oklab, var(--color-spark) 70%, transparent);
+  animation: spark-fly linear infinite;
+  pointer-events: none;
+}
+
+@utility arc-flicker {
+  animation: arc-flicker 2.8s linear infinite;
+}
+
+@utility glow-pulse {
+  animation: glow-pulse 4s ease-in-out infinite;
+}
+
+@utility logo-welcome {
+  animation: logo-welcome 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@utility reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@utility reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@utility text-molten {
+  background: linear-gradient(92deg, var(--color-primary), var(--color-spark), var(--color-ember), var(--color-primary));
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Molten underline hover for nav links */
+@utility link-molten {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -4px;
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-spark));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  &:hover::after,
+  &.active::after {
+    transform: scaleX(1);
+  }
+}
+
+/* Brushed steel panel texture */
+@utility steel-panel {
+  background-image:
+    linear-gradient(180deg, oklch(1 0 0 / 3%), transparent 40%),
+    repeating-linear-gradient(90deg, oklch(1 0 0 / 1.5%) 0 1px, transparent 1px 3px);
+  background-color: var(--color-card);
+}
