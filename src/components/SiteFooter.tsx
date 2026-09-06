@@ -18,7 +18,7 @@ export function SiteFooter() {
           </p>
           <div className="mt-5 space-y-1.5 font-mono text-xs text-muted-foreground">
             <p>Phone: +91 9403614761 / +91 9405575965</p>
-            <p>Email:&nbsp; anuarc@gmail.com</p>
+            <p>Email:&nbsp; office@anuarc.in</p>
             <p>Showroom:&nbsp;CM 2nd-560, Pandit Dindayal Upadhyay Nagar, Nyay Nagar, Sukhliya, Indore, Madhya Pradesh 452010, India</p>
           </div>
         </div>
